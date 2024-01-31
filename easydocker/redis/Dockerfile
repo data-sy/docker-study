@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY config/redis.conf /usr/local/etc/redis/redis.conf
 
 # # Redis 비밀번호 설정
-# ENV REDIS_PASSWORD 비밀번호
+ENV REDIS_PASSWORD myredispw
 
 # Redis 서버 실행 포트
 EXPOSE 6379
