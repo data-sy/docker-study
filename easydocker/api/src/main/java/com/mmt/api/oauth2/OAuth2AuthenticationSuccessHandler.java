@@ -38,7 +38,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 
 //        String targetUrl = "http://localhost:8080/api/v1/login";
-        String targetUrl = "http://mmt-front:80/login";
+        String targetUrl = "http://localhost:80/login";
 
         //JWT 생성
         JwtToken token = tokenProvider.generateToken(authentication);

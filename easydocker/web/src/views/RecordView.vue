@@ -33,7 +33,7 @@ onMounted(async() => {
     )
     if (isLoggedIn.value) {
         try {
-            const endpoint = 'users';
+            const endpoint = '/api/v1/users';
             const response = await api.get(endpoint);
             userDetail.value = response;
             userGrade.value = TitleService.calculateGrade(userDetail.value.userBirthdate);
@@ -57,7 +57,7 @@ onMounted(async() => {
     )
     if (isLoggedIn.value) {
         try {
-            const endpoint = 'tests/user';
+            const endpoint = '/api/v1/tests/user';
             const response = await api.get(endpoint);
             listboxTests.value = response;
         } catch (err) {
@@ -96,7 +96,7 @@ watch(listboxTest, async (newValue) => {
         }
         userTestId.value = newValue.userTestId;
         try {
-            const endpoint = `/tests/detail/${newValue.testId}`;
+            const endpoint = `/api/v1/tests/detail/${newValue.testId}`;
             const response = await api.get(endpoint);
             testDetail.value = response.map((item) => {
                 return { ...item, answerCode: true };
@@ -144,7 +144,7 @@ const createRecord = async () => {
             answerCodeCreateRequestList: answerCodeCreateRequestList
         });
         try {
-            await api.post('/record', requestData.value);
+            await api.post('api/v1/record', requestData.value);
         } catch (err) {
             console.error(`POST ${endpoint} failed:`, err);
         }
@@ -164,8 +164,8 @@ const analysis = async () => {
             const headers = {
                 "Authorization": `Bearer ${accessToken}`,
                 "Content-Type": "application/json"
-            };
-            const response = await axios.post(`http://mmt-ai:8000/ai/v1/ai/${userTestId.value}`, {}, { headers });
+            };  
+            const response = await axios.post(`/ai/v1/ai/${userTestId.value}`, {}, { headers });
             console.log('응답 데이터:', response.data);
         } catch (err) {
             console.error('데이터 생성 중 에러 발생:', err);

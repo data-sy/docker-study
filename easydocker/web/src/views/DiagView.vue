@@ -36,7 +36,7 @@ onMounted(async() => {
     )
     if (isLoggedIn.value) {
         try {
-            const endpoint = 'users';
+            const endpoint = '/api/v1/users';
             const response = await api.get(endpoint);
             userDetail.value = response;
             userGrade.value = TitleService.calculateGrade(userDetail.value.userBirthdate);
@@ -67,7 +67,7 @@ watch(selectButtonLevel, async (newValue) => {
             listboxLevels.value = levelDic['고등'];
         }
         try {
-            const endpoint = `/tests/school-level/${newValue.name}`;
+            const endpoint = `/api/v1/tests/school-level/${newValue.name}`;
             const response = await api.get(endpoint);
             listboxTestsAll.value = response
         } catch (err) {
@@ -107,7 +107,7 @@ watch(listboxTest, async (newValue) => {
             isImageExist.value = false;
         }
         try {
-            const endpoint = `/tests/detail/${testId.value}`;
+            const endpoint = `/api/v1/tests/detail/${testId.value}`;
             const response = await api.get(endpoint);
             testDetail.value = response
         } catch (err) {
@@ -157,7 +157,7 @@ const generatePdf = () => {
 const createDiagTest = async () => {
     if (isLoggedIn.value) {
         try {
-            const endpoint = `/tests/${testId.value}`;
+            const endpoint = `/api/v1/tests/${testId.value}`;
             await api.post(endpoint);
         } catch (err) {
             console.error(`POST ${endpoint} failed:`, err);

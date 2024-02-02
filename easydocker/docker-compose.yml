@@ -1,8 +1,8 @@
 version: '3'
 services:
-  mmt-mysql:
-    build: ./mysql
-    image: mmt-mysql:2.0.0-compose
+  # mmt-mysql:
+  #   build: ./mysql
+  #   image: mmt-mysql:2.0.0-compose
     # volumes:
     #   - mydata:/var/lib/postgresql/data
     # deploy:
@@ -14,9 +14,22 @@ services:
   mmt-redis:
     build: ./redis
     image: mmt-redis:2.0.0-compose
-  mmt-neo4j:
-    build: ./neo4j
-    image: mmt-neo4j:2.0.0-compose
+    networks:
+      - mmt-network    
+  # mmt-neo4j:
+  #   build: ./neo4j
+  #   image: mmt-neo4j:2.0.0-compose
+  #   command: ["./compose-script.sh"]
+  #   networks:
+  #     - mmt-network
+
+  mmt-ai:
+    build: ./ai
+    image: mmt-ai:2.0.0-compose
+    ports:
+      - 8000:5000
+    networks:
+      - mmt-network
 
   mmt-backend:
     build: ./api
@@ -27,16 +40,18 @@ services:
       - GDB_URL=mmt-neo4j
     ports:
       - 8080:8080
-    depends_on:
-      - mmt-mysql
-      - mmt-redis
-      - mmt-neo4j
-    command :
-      - bash
-      - -c
-      - |
-        ./wait-for-it.sh db-mysql:3306 -s -t 5000
-        java -jar /mmt.jar
+    networks:
+      - mmt-network
+    # depends_on:
+    #   - mmt-mysql
+    #   - mmt-redis
+    #   - mmt-neo4j
+    # command :
+    #   - bash
+    #   - -c
+    #   - |
+    #     ./wait-for-it.sh db-mysql:3306 -s -t 100
+    #     java -jar /mmt.jar
     # deploy:
     #   resources:
     #     limits:
@@ -53,6 +68,8 @@ services:
       - 80:80
     depends_on:
       - mmt-backend
+    networks:
+      - mmt-network
     # deploy:
     #   resources:
     #     limits:
@@ -60,11 +77,10 @@ services:
     #       memory: 64M
     # restart: on-failure
 
-  mmt-ai:
-    build: ./ai
-    image: mmt-ai:2.0.0-compose
-    ports:
-      - 8000:5000
-
 # volumes:
 #   mydata:
+
+networks:
+  mmt-network:
+    external: true  # 외부 네트워크 사용
+

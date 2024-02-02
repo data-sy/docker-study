@@ -1,10 +1,10 @@
 # 빌드 이미지로 OpenJDK 17 & Gradle을 지정
 FROM gradle:8.4-jdk17 AS build
 
-# wait-for-it.sh
-RUN apt-get update && apt-get install -y bash
-COPY wait-for-it.sh wait-for-it.sh
-RUN chmod +x wait-for-it.sh
+# # wait-for-it.sh
+# RUN apt-get update && apt-get install -y bash
+# COPY wait-for-it.sh wait-for-it.sh
+# RUN chmod +x wait-for-it.sh
 
 # 소스코드를 복사할 작업 디렉토리를 생성
 WORKDIR /app

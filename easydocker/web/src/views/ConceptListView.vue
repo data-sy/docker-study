@@ -39,7 +39,7 @@ watch(listboxLevel, async (newValue) => {
         const grade = newValue.grade;
         const semester = newValue.semester;
         try {
-            const endpoint = `/chapters?grade=${grade}&semester=${semester}`;
+            const endpoint = `/api/v1/chapters?grade=${grade}&semester=${semester}`;
             const response = await api.get(endpoint);
             if (response[0]['label'] === "") {
                 treeValue.value = response[0]['children']
@@ -64,7 +64,7 @@ watch(selectedTreeValue, async (newValue) => {
     // console.log(chapterId);
     if (!isNaN(chapterId)){
         try {
-            const endpoint = `/concepts?chapterId=${chapterId}`;
+            const endpoint = `/api/v1/concepts?chapterId=${chapterId}`;
             const response = await api.get(endpoint);
             listboxConcepts.value = response;
             error.value = null;
@@ -114,9 +114,9 @@ const goToHome = () => {
 // '다음' 버튼 : api & 화면이동
 const goToNextPage = async () => {
     try {
-        const nodesEndpoint = `/concepts/nodes/${conceptDetail.value.conceptId}`;
+        const nodesEndpoint = `/api/v1/concepts/nodes/${conceptDetail.value.conceptId}`;
         const nodesResponse = await api.get(nodesEndpoint);
-        const edgesEndpoint = `/concepts/edges/${conceptDetail.value.conceptId}`;
+        const edgesEndpoint = `/api/v1/concepts/edges/${conceptDetail.value.conceptId}`;
         const edgesResponse = await api.get(edgesEndpoint);
         const data = {
             conceptId: conceptId.value,

@@ -9,9 +9,9 @@ docker run -d --name mmt-neo4j --network mmt-network mmt2024/mmt-neo4j:1.0.0
 docker logs -f mmt-neo4j
 
 # 컨테이너 명령어 실행
-docker exec -it mmt-neo4j cypher-shell -u neo4j -p myneo4jpw
+docker exec -it mmt-neo4j cypher-shell -u neo4j -p myneo4jpw -f /var/lib/neo4j/import/init.cypher
 
-# 데이터 조회
-MATCH (n) RETURN n;
-# 나가기
-:exit
+# # 데이터 조회
+# MATCH (n) RETURN n;
+# # 나가기
+# :exit
