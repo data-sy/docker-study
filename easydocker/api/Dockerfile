@@ -32,6 +32,11 @@ WORKDIR /app
 # 빌드 이미지에서 생성된 JAR 파일을 런타임 이미지로 복사
 COPY --from=build /app/build/libs/*.jar /app/mmt.jar
 
+# wait-for-it.sh
+RUN apk update && apk add bash
+COPY wait-for-it.sh wait-for-it.sh
+RUN chmod +x wait-for-it.sh
+
 EXPOSE 8080 
 ENTRYPOINT ["java"] 
 CMD ["-jar", "mmt.jar"]
