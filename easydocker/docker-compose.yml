@@ -1,0 +1,70 @@
+version: '3'
+services:
+  mmt-mysql:
+    build: ./mysql
+    image: mmt-mysql:2.0.0-compose
+    # volumes:
+    #   - mydata:/var/lib/postgresql/data
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '1'
+    #       memory: 256M
+    # restart: always
+  mmt-redis:
+    build: ./redis
+    image: mmt-redis:2.0.0-compose
+  mmt-neo4j:
+    build: ./neo4j
+    image: mmt-neo4j:2.0.0-compose
+
+  mmt-backend:
+    build: ./api
+    image: mmt-backend:2.0.0-compose
+    environment:
+      - RDB_URL=mmt-mysql
+      - NOSQL_URL=mmt-redis
+      - GDB_URL=mmt-neo4j
+    ports:
+      - 8080:8080
+    depends_on:
+      - mmt-mysql
+      - mmt-redis
+      - mmt-neo4j
+    command :
+      - bash
+      - -c
+      - |
+        ./wait-for-it.sh db-mysql:3306 -s -t 5000
+        java -jar /mmt.jar
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '1.5'
+    #       memory: 512M
+    # restart: on-failure
+      
+  mmt-front:
+    build: ./web
+    image: mmt-front:2.0.0-compose
+    # environment:
+    #   - BACKEND_HOST=leafy-backend
+    ports:
+      - 80:80
+    depends_on:
+      - mmt-backend
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '0.5'
+    #       memory: 64M
+    # restart: on-failure
+
+  mmt-ai:
+    build: ./ai
+    image: mmt-ai:2.0.0-compose
+    ports:
+      - 8000:5000
+
+# volumes:
+#   mydata:

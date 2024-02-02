@@ -2,7 +2,7 @@
 FROM mysql:8.0
 
 # init.sql 파일을 /docker-entrypoint-initdb.d/ 로 복사, /docker-entrypoint-initdb.d/에 있는 sql문은 컨테이너가 처음 실행 시 자동 실행됨
-COPY ./init/init.sql /docker-entrypoint-initdb.d/
+COPY ./init/ /docker-entrypoint-initdb.d/
 
 # 계정 정보 설정
 ENV MYSQL_DATABASE=mmt
