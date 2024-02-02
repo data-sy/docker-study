@@ -2,7 +2,7 @@ version: '3'
 services:
   # mmt-mysql:
   #   build: ./mysql
-  #   image: mmt-mysql:2.0.0-compose
+  #   image: mmt-mysql:2.0.0
     # volumes:
     #   - mydata:/var/lib/postgresql/data
     # deploy:
@@ -13,19 +13,19 @@ services:
     # restart: always
   mmt-redis:
     build: ./redis
-    image: mmt-redis:2.0.0-compose
+    image: mmt-redis:2.0.0
     networks:
       - mmt-network    
   # mmt-neo4j:
   #   build: ./neo4j
-  #   image: mmt-neo4j:2.0.0-compose
+  #   image: mmt-neo4j:2.0.0
   #   command: ["./compose-script.sh"]
   #   networks:
   #     - mmt-network
 
   mmt-ai:
     build: ./ai
-    image: mmt-ai:2.0.0-compose
+    image: mmt-ai:2.0.0
     ports:
       - 8000:5000
     networks:
@@ -33,7 +33,7 @@ services:
 
   mmt-backend:
     build: ./api
-    image: mmt-backend:2.0.0-compose
+    image: mmt-backend:2.0.0
     environment:
       - RDB_URL=mmt-mysql
       - NOSQL_URL=mmt-redis
@@ -61,7 +61,7 @@ services:
       
   mmt-front:
     build: ./web
-    image: mmt-front:2.0.0-compose
+    image: mmt-front:2.0.0
     # environment:
     #   - BACKEND_HOST=leafy-backend
     ports:
