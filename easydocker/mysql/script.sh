@@ -1,4 +1,4 @@
-docker network create mmt-network
+# docker network create mmt-network
 
 #도커 이미지 빌드 및 푸시
 docker build -t mmt2024/mmt-mysql:1.0.0 . --no-cache
