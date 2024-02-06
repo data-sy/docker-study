@@ -51,7 +51,7 @@ onMounted(() => {
 const loginErrorMessage = ref('');
 const login = async () => {
     try {
-        const response = await api.post('api/v1/authentication', requestData.value);
+        const response = await api.post('api/v1/auth/authentication', requestData.value);
         if (response.accessToken){
             store.commit('setAccessToken', response.accessToken);
             store.commit('setRefreshToken', response.refreshToken);

@@ -3,29 +3,24 @@ services:
   # mmt-mysql:
   #   build: ./mysql
   #   image: mmt-mysql:2.0.0
-    # volumes:
-    #   - mydata:/var/lib/postgresql/data
-    # deploy:
-    #   resources:
-    #     limits:
-    #       cpus: '1'
-    #       memory: 256M
-    # restart: always
-  mmt-redis:
-    build: ./redis
-    image: mmt-redis:2.0.0
-    networks:
-      - mmt-network    
+  #   volumes:
+  #     - mysql-vol:/var/lib/mysql
   # mmt-neo4j:
   #   build: ./neo4j
   #   image: mmt-neo4j:2.0.0
-  #   command: ["./compose-script.sh"]
+  #   volumes:
+  #     - neo4j-vol:/data
   #   networks:
   #     - mmt-network
+  mmt-redis:
+    build: ./redis
+    image: mmt-redis:1.0.0
+    networks:
+      - mmt-network
 
   mmt-ai:
     build: ./ai
-    image: mmt-ai:2.0.0
+    image: mmt-ai:1.0.0
     ports:
       - 8000:5000
     networks:
@@ -33,7 +28,7 @@ services:
 
   mmt-backend:
     build: ./api
-    image: mmt-backend:2.0.0
+    image: mmt-backend:1.0.0
     environment:
       - RDB_URL=mmt-mysql
       - NOSQL_URL=mmt-redis
@@ -42,45 +37,30 @@ services:
       - 8080:8080
     networks:
       - mmt-network
-    # depends_on:
-    #   - mmt-mysql
-    #   - mmt-redis
-    #   - mmt-neo4j
-    # command :
-    #   - bash
-    #   - -c
-    #   - |
-    #     ./wait-for-it.sh db-mysql:3306 -s -t 100
-    #     java -jar /mmt.jar
-    # deploy:
-    #   resources:
-    #     limits:
-    #       cpus: '1.5'
-    #       memory: 512M
-    # restart: on-failure
-      
+    depends_on:
+      # - mmt-mysql
+      # - mmt-neo4j
+      - mmt-redis
+    # command: ["java", "-jar", "mmt.jar"]
   mmt-front:
     build: ./web
-    image: mmt-front:2.0.0
-    # environment:
-    #   - BACKEND_HOST=leafy-backend
+    image: mmt-front:1.0.0
+    environment:
+      - BACKEND_HOST=mmt-backend
+      - BACKEND_PORT=8080
     ports:
       - 80:80
     depends_on:
       - mmt-backend
     networks:
       - mmt-network
-    # deploy:
-    #   resources:
-    #     limits:
-    #       cpus: '0.5'
-    #       memory: 64M
-    # restart: on-failure
 
 # volumes:
-#   mydata:
+#   mysql-vol:
+#     external: true
+#   neo4j-vol:
+#     external: true
 
 networks:
   mmt-network:
     external: true  # 외부 네트워크 사용
-

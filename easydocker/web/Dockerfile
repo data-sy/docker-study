@@ -10,6 +10,10 @@ RUN npm install
 # RUN npm ci
 RUN npm run build
 
+# # 환경 변수 설정
+# ENV BACKEND_HOST=mmt-backend
+# ENV BACKEND_PORT=8080
+
 # 런타임 이미지로 nginx 1.21.4 지정, /usr/share/nginx/html 폴더에 권한 추가
 FROM nginx:1.21.4-alpine
 COPY nginx.conf /etc/nginx/conf.d/default.conf
