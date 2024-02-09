@@ -217,6 +217,7 @@ const yesClick = () => {
   closeConfirmation();
   generatePdf();
   createDiagTest();
+  goToHome();
 };
 
 </script>

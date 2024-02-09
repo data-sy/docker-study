@@ -165,7 +165,7 @@ const analysis = async () => {
                 "Authorization": `Bearer ${accessToken}`,
                 "Content-Type": "application/json"
             };  
-            const response = await axios.post(`/ai/v1/ai/${userTestId.value}`, {}, { headers });
+            const response = await axios.post(`http://localhost:8000/ai/v1/ai/${userTestId.value}`, {}, { headers });
             console.log('응답 데이터:', response.data);
         } catch (err) {
             console.error('데이터 생성 중 에러 발생:', err);

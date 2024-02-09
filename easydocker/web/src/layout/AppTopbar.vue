@@ -88,7 +88,7 @@ const goToSignup = () => {
 
 const logout = async () => {
     try {
-        await api.del('/authentication');
+        await api.del('api/v1/auth/authentication');
         store.commit('setAccessToken', null);
         store.commit('setRefreshToken', null);
         localStorage.removeItem('accessToken');
