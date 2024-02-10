@@ -8,8 +8,7 @@ from predict import predict
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
-# CORS(app, resources={r"/*": {"origins": ["http://localhost:80", "http://localhost:8080"]}})
-
+# CORS(app, resources={r"/*": {"origins": ["http://localhost", "http://localhost:8080"]}})
 
 @app.route('/')
 def hello_world():
@@ -42,7 +41,7 @@ def aitest():
 # 플라스크와 스프링 간의 cors
 @app.route('/corstest')
 def corstest():
-    spring_api_url = 'http://127.0.0.1:8080/api/v1/hello'
+    spring_api_url = 'http://mmt-backend:8080/api/v1/hello'
     response = requests.get(spring_api_url)
     if response.status_code == 200:
         response_text = response.text
@@ -66,7 +65,7 @@ def corstestvue(user_test_id):
 # 뷰-> 플라스크 -> 스프링 간의 cors
 @app.route('/corstestvuespring/<int:user_test_id>', methods=['POST'])
 def corstestvuespring(user_test_id):
-    spring_api_url = 'http://127.0.0.1:8080/api/v1/hello'
+    spring_api_url = 'http://mmt-backend:8080/api/v1/hello'
     response = requests.get(spring_api_url)
     if response.status_code == 200:
         response_text = response.text
@@ -86,7 +85,7 @@ def ai(user_test_id):
         "Content-Type": "application/json"
     }
     # 스프링 서버에서 ai_input 받기
-    spring_api_url = 'http://localhost:8080/api/v1/ai/'+str(user_test_id)
+    spring_api_url = 'http://mmt-backend:8080/api/v1/ai/'+str(user_test_id)
     response_get = requests.get(spring_api_url, headers=headers)
 
     if response_get.status_code == 200:
@@ -103,7 +102,7 @@ def ai(user_test_id):
         return 'Failed to fetch data from Spring 1', 500
 
     # 스프링 서버로 ai_output 보내기
-    spring_api_url2 = 'http://localhost:8080/api/v1/ai'
+    spring_api_url2 = 'http://mmt-backend:8080/api/v1/ai'
     response_post = requests.post(spring_api_url2, json=response_data, headers=headers)
 
     if response_post.status_code == 200:
