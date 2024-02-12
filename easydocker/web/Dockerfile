@@ -14,7 +14,7 @@ RUN npm run build
 FROM nginx:1.21.4-alpine
 
 # # proxy
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 # ENV BACKEND_HOST=mmt-backend
 # ENV BACKEND_PORT=8080
 
