@@ -1,50 +1,44 @@
 version: '3'
 services:
-  # mmt-mysql:
-  #   build: ./mysql
-  #   image: mmt-mysql:2.0.0
-  #   volumes:
-  #     - mysql-vol:/var/lib/mysql
-  # mmt-neo4j:
-  #   build: ./neo4j
-  #   image: mmt-neo4j:2.0.0
-  #   volumes:
-  #     - neo4j-vol:/data
-  #   networks:
-  #     - mmt-network
+  mmt-mysql:
+    build: ./mysql
+    image: mmt-mysql:2.0.0
+    volumes:
+      - mysql-vol:/var/lib/mysql
+    healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+        interval: 10s
+        timeout: 10s
+        retries: 5
+  mmt-neo4j:
+    build: ./neo4j
+    image: mmt-neo4j:2.0.0
+    volumes:
+      - neo4j-vol:/data
   mmt-redis:
     build: ./redis
-    image: mmt-redis:1.0.0
-    networks:
-      - mmt-network
-
-  mmt-ai:
-    build: ./ai
-    image: mmt-ai:1.0.0
-    ports:
-      - 8000:5000
-    networks:
-      - mmt-network
+    image: mmt-redis:2.0.0
 
   mmt-backend:
     build: ./api
-    image: mmt-backend:1.0.0
+    image: mmt-backend:2.0.0
     environment:
       - RDB_URL=mmt-mysql
       - NOSQL_URL=mmt-redis
       - GDB_URL=mmt-neo4j
-    ports:
-      - 8080:8080
-    networks:
-      - mmt-network
     depends_on:
-      # - mmt-mysql
-      # - mmt-neo4j
-      - mmt-redis
-    # command: ["java", "-jar", "mmt.jar"]
+      mmt-mysql:
+        condition : service_healthy
+
+  mmt-ai:
+    build: ./ai
+    image: mmt-ai:2.0.0
+    ports:
+      - 8000:5000
+
   mmt-front:
     build: ./web
-    image: mmt-front:1.0.0
+    image: mmt-front:2.0.0
     environment:
       - BACKEND_HOST=mmt-backend
       - BACKEND_PORT=8080
@@ -52,15 +46,15 @@ services:
       - 80:80
     depends_on:
       - mmt-backend
-    networks:
-      - mmt-network
+      # networks:
+      # - mmt-network
 
-# volumes:
-#   mysql-vol:
-#     external: true
-#   neo4j-vol:
-#     external: true
+volumes:
+  mysql-vol:
+    external: true
+  neo4j-vol:
+    external: true
 
-networks:
-  mmt-network:
-    external: true  # 외부 네트워크 사용
+# networks:
+#   mmt-network:
+#     external: true  # 외부 네트워크 사용
