@@ -35,7 +35,7 @@ docker pull mmt2024/mmt-redis:1.0.0
 docker run -d --name mmt-redis --network mmt-network mmt2024/mmt-redis:1.0.0
 # api
 docker pull mmt2024/mmt-backend:1.0.0
-docker run -d -p 8080:8080 -e RDB_URL=mmt-mysql -e NOSQL_URL=mmt-redis -e GDB_URL=mmt-neo4j --network mmt-network --name mmt-backend mmt2024/mmt-backend:1.0.0
+docker run -d -e RDB_URL=mmt-mysql -e NOSQL_URL=mmt-redis -e GDB_URL=mmt-neo4j --network mmt-network --name mmt-backend mmt2024/mmt-backend:1.0.0 
 # ai
 docker pull mmt2024/mmt-ai:1.0.0
 docker run -d -p 8000:5000 --network mmt-network --name mmt-ai mmt2024/mmt-ai:1.0.0
