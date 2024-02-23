@@ -8,6 +8,7 @@
                 <div class="flex justify-content-between">
                     <div>
                         화면수정
+                        화면수정2
                     </div>
                 </div>
             </div>
