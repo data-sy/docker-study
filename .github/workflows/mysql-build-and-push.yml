@@ -60,5 +60,6 @@ jobs:
           docker pull ${{ secrets.DOCKERHUB_USERNAME }}/mmt-mysql:${{ github.sha }}
           docker-compose up -d mmt-mysql
           docker system prune -f
+
 # 다 성공하고 나서 system 말고 image로 해서 컨테이너 띄운 이미지 삭제하는 거 추가하기
 # 지금은 이미지가 매번 푸시할 때마다 새로 추가 돼
