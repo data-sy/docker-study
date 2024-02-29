@@ -1,4 +1,4 @@
-name: Mysql Build and Push
+name: Mysql Build and Push and EC2 CD
 
 on:
   push:
@@ -40,3 +40,23 @@ jobs:
         # 이미지를 레지스트리에 푸시합니다.
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/mmt-mysql:${{ github.sha }}
         platforms: linux/amd64,linux/arm64
+
+    # 서버에서 Docker 이미지 실행 (스크립트의 도커 앞에 sudo를 붙인 블로그도 있음)
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: EC2 Docker Run
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        password: ${{ secrets.EC2_PASSWORD }}
+        port: ${{ secrets.EC2_PORT }}
+        script: |
+          docker rm -f mmt-mysql
+          docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/mmt-mysql:${{ github.sha }}
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/mmt-mysql:${{ github.sha }}
+          docker-compose up -d mmt-mysql
+          docker system prune -f
