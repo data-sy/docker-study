@@ -160,3 +160,5 @@ INSERT INTO authority (authority_name) VALUES ('ROLE_ADMIN');
 INSERT INTO user_authority (user_id, authority_name) VALUES (1, 'ROLE_USER');
 INSERT INTO user_authority (user_id, authority_name) VALUES (1, 'ROLE_ADMIN');
 INSERT INTO user_authority (user_id, authority_name) VALUES (2, 'ROLE_USER');
+
+-- cd 테스트
