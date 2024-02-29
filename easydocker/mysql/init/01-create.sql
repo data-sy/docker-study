@@ -162,3 +162,4 @@ INSERT INTO user_authority (user_id, authority_name) VALUES (1, 'ROLE_ADMIN');
 INSERT INTO user_authority (user_id, authority_name) VALUES (2, 'ROLE_USER');
 
 -- cd 테스트!!!!
+-- cd 테스트!!!!
