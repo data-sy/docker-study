@@ -1,8 +1,7 @@
 version: '3'
 services:
   mmt-mysql:
-    build: ./mysql
-    image: mmt-mysql:2.0.0
+    image: "${{ secrets.DOCKERHUB_USERNAME }}/mmt-mysql:${{ github.sha }}"
     volumes:
       - mysql-vol:/var/lib/mysql
     healthcheck:
@@ -11,17 +10,11 @@ services:
         timeout: 10s
         retries: 5
   mmt-neo4j:
-    build: ./neo4j
-    image: mmt-neo4j:2.0.0
-    volumes:
-      - neo4j-vol:/data
+    image: "${{ secrets.DOCKERHUB_USERNAME }}/mmt-neo4j:${{ github.sha }}"
   mmt-redis:
-    build: ./redis
-    image: mmt-redis:2.0.0
-
+    image: "${{ secrets.DOCKERHUB_USERNAME }}/mmt-redis:2.0.0"
   mmt-backend:
-    build: ./api
-    image: mmt-backend:2.0.0
+    image: "${{ secrets.DOCKERHUB_USERNAME }}/mmt-backend:${{ github.sha }}"
     environment:
       - RDB_URL=mmt-mysql
       - NOSQL_URL=mmt-redis
@@ -29,16 +22,12 @@ services:
     depends_on:
       mmt-mysql:
         condition : service_healthy
-
   mmt-ai:
-    build: ./ai
-    image: mmt-ai:2.0.0
+    image: "${{ secrets.DOCKERHUB_USERNAME }}/mmt-ai:${{ github.sha }}"
     ports:
       - 8000:5000
-
   mmt-front:
-    build: ./web
-    image: mmt-front:2.0.0
+    image: "${{ secrets.DOCKERHUB_USERNAME }}/mmt-front:${{ github.sha }}"
     environment:
       - BACKEND_HOST=mmt-backend
       - BACKEND_PORT=8080
@@ -46,15 +35,7 @@ services:
       - 80:80
     depends_on:
       - mmt-backend
-      # networks:
-      # - mmt-network
 
 volumes:
   mysql-vol:
     external: true
-  neo4j-vol:
-    external: true
-
-# networks:
-#   mmt-network:
-#     external: true  # 외부 네트워크 사용
