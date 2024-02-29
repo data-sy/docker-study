@@ -1,7 +1,7 @@
 version: '3'
 services:
   mmt-mysql:
-    image: "${{ secrets.DOCKERHUB_USERNAME }}/mmt-mysql:${{ github.sha }}"
+    image: "mmt2024/mmt-mysql:${{ github.sha }}"
     volumes:
       - mysql-vol:/var/lib/mysql
     healthcheck:
