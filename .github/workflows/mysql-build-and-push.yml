@@ -43,7 +43,7 @@ jobs:
 
     # 서버에서 Docker 이미지 실행 (스크립트의 도커 앞에 sudo를 붙인 블로그도 있음)
   deploy:
-    needs: build
+    needs: build-and-push
     runs-on: ubuntu-latest
 
     steps:
