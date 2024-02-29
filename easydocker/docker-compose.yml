@@ -1,7 +1,7 @@
 version: '3'
 services:
   mmt-mysql:
-    image: "mmt2024/mmt-mysql:${{ github.sha }}"
+    image: mmt2024/mmt-mysql
     volumes:
       - mysql-vol:/var/lib/mysql
     healthcheck:
@@ -10,11 +10,11 @@ services:
         timeout: 10s
         retries: 5
   mmt-neo4j:
-    image: "${{ secrets.DOCKERHUB_USERNAME }}/mmt-neo4j:${{ github.sha }}"
+    image: mmt2024/mmt-neo4j
   mmt-redis:
-    image: "${{ secrets.DOCKERHUB_USERNAME }}/mmt-redis:2.0.0"
+    image: mmt2024/mmt-redis
   mmt-backend:
-    image: "${{ secrets.DOCKERHUB_USERNAME }}/mmt-backend:${{ github.sha }}"
+    image: mmt2024/mmt-backend
     environment:
       - RDB_URL=mmt-mysql
       - NOSQL_URL=mmt-redis
@@ -23,11 +23,11 @@ services:
       mmt-mysql:
         condition : service_healthy
   mmt-ai:
-    image: "${{ secrets.DOCKERHUB_USERNAME }}/mmt-ai:${{ github.sha }}"
+    image: mmt2024/mmt-ai
     ports:
       - 8000:5000
   mmt-front:
-    image: "${{ secrets.DOCKERHUB_USERNAME }}/mmt-front:${{ github.sha }}"
+    image: mmt2024/mmt-front
     environment:
       - BACKEND_HOST=mmt-backend
       - BACKEND_PORT=8080

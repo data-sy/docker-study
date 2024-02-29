@@ -57,7 +57,6 @@ jobs:
         script: |
           docker rm -f mmt-mysql
           docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/mmt-mysql:${{ github.sha }}
-          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/mmt-mysql:${{ github.sha }}
           docker-compose up -d mmt-mysql
           docker system prune -f
 
