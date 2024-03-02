@@ -120,7 +120,6 @@ const signup = async () => {
     // console.log(requestData.value);
     try {
         const response = await api.post('/api/v1/auth/signup', requestData.value);
-        router.push({ name: 'home' });
     } catch (err) {
         console.error('데이터 생성 중 에러 발생:', err);
     }
