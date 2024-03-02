@@ -1,11 +1,11 @@
-name: AI Build and Push
+name: Mysql CI CD with EC2
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'easydocker/ai/**'
+      - 'easydocker/mysql/**'
 
 jobs:
   build-and-push:
@@ -32,11 +32,30 @@ jobs:
     - name: Build and Push
       uses: docker/build-push-action@v2
       with:
-        context: ./easydocker/ai  
+        context: ./easydocker/mysql  
         # Dockerfile이 있는 위치입니다.
-        file: ./easydocker/ai/Dockerfile  
+        file: ./easydocker/mysql/Dockerfile  
         # Dockerfile의 경로입니다.
-        push: true
+        push: true  
         # 이미지를 레지스트리에 푸시합니다.
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/mmt-ai:${{ github.sha }}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/mmt-mysql:3.0.0
         platforms: linux/amd64,linux/arm64
+
+    # 서버에서 Docker 이미지 실행 (스크립트의 도커 앞에 sudo를 붙인 블로그도 있음)
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: EC2 Docker Run
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        password: ${{ secrets.EC2_PASSWORD }}
+        port: ${{ secrets.EC2_PORT }}
+        script: |
+          docker rm -f mmt-mysql
+          docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/mmt-mysql:3.0.0
+          docker-compose up -d mmt-mysql
+          docker system prune -f
