@@ -16,3 +16,5 @@ docker logs -f mmt-redis
 # # 데이터 조회
 # SET mykey "Hello, Redis!"
 # GET mykey
+
+# CD 테스트
