@@ -8,3 +8,5 @@ docker run -d -p 80:80 --network mmt-network --name mmt-front mmt2024/mmt-front:
 
 # 로그 확인 및 http://localhost 접속
 docker logs -f mmt-front
+
+# CD 테스트
