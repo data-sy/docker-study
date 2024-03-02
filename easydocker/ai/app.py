@@ -9,7 +9,7 @@ from predict import predict
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 # CORS(app, resources={r"/*": {"origins": ["http://localhost", "http://localhost:8080"]}})
-
+# CD 테스트
 @app.route('/')
 def hello_world():
     return 'Hello world!'
