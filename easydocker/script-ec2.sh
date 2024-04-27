@@ -14,31 +14,34 @@ sudo chmod 666 /var/run/docker.sock
 # 다시 권한 적용 확인
 docker ps
 
+# 도커 컴포즈 설치 https://narup.tistory.com/223 보고 추가하기
 
 # 도커 로그인
 docker login
 # username과 비번 치면 success
+# 볼륨 생성
+docker volume create mysql-vol
 # 네트워크 생성
 docker network create mmt-network
 # 도커 풀 & 런
 # msyql
-docker pull mmt2024/mmt-mysql:1.0.0
-docker run -d --name mmt-mysql -v mysql-vol:/var/lib/mysql --network mmt-network mmt2024/mmt-mysql:1.0.0
+docker pull mmt2024/mmt-mysql:3.0.0
+docker run -d --name mmt-mysql -v mysql-vol:/var/lib/mysql --network mmt-network mmt2024/mmt-mysql:3.0.0
 # neo4j는 초기화도 진행
-docker pull mmt2024/mmt-neo4j:1.0.0
-docker run -d --name mmt-neo4j -v neo4j-vol:/data --network mmt-network mmt2024/mmt-neo4j:1.0.0
+docker pull mmt2024/mmt-neo4j:3.0.0
+docker run -d --name mmt-neo4j --network mmt-network mmt2024/mmt-neo4j:3.0.0
     # 로그로 서버 started 확인
 docker logs -f mmt-neo4j
 docker exec -it mmt-neo4j cypher-shell -u neo4j -p myneo4jpw -f /var/lib/neo4j/import/init.cypher
 # redis
-docker pull mmt2024/mmt-redis:1.0.0
-docker run -d --name mmt-redis --network mmt-network mmt2024/mmt-redis:1.0.0
+docker pull mmt2024/mmt-redis:3.0.0
+docker run -d --name mmt-redis --network mmt-network mmt2024/mmt-redis:3.0.0
 # api
-docker pull mmt2024/mmt-backend:1.0.0
-docker run -d -e RDB_URL=mmt-mysql -e NOSQL_URL=mmt-redis -e GDB_URL=mmt-neo4j --network mmt-network --name mmt-backend mmt2024/mmt-backend:1.0.0 
+docker pull mmt2024/mmt-backend:3.0.0
+docker run -d -e RDB_URL=mmt-mysql -e NOSQL_URL=mmt-redis -e GDB_URL=mmt-neo4j --network mmt-network --name mmt-backend mmt2024/mmt-backend:3.0.0 
 # ai
-docker pull mmt2024/mmt-ai:1.0.0
-docker run -d -p 8000:5000 --network mmt-network --name mmt-ai mmt2024/mmt-ai:1.0.0
+docker pull mmt2024/mmt-ai:3.0.0
+docker run -d -p 8000:5000 --network mmt-network --name mmt-ai mmt2024/mmt-ai:3.0.0
 # web
-docker pull mmt2024/mmt-web:1.0.0
-docker run -d -p 80:80 --network mmt-network --name mmt-front mmt2024/mmt-front:1.0.0
+docker pull mmt2024/mmt-web:3.0.0
+docker run -d -p 80:80 --network mmt-network --name mmt-front mmt2024/mmt-front:3.0.0
