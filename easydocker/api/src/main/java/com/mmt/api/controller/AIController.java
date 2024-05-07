@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/ai")
 public class AIController {
 
-    // 깃허브 액션 테스트
     // 깃허브 액션 ECR 테스트 
-
+    
     private final AnswerService answerService;
     private final ProbabilityService probabilityService;
 
