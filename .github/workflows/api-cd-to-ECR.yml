@@ -28,9 +28,10 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
-      
+
     - name: Build, tag, and push image to Amazon ECR
       run: |
+        cd easydocker/api
         docker build -t mmt-api .
-    		docker tag mmt-api:latest 765827911552.dkr.ecr.us-east-1.amazonaws.com/mmt-api:latest
+        docker tag mmt-api:latest 765827911552.dkr.ecr.us-east-1.amazonaws.com/mmt-api:latest
         docker push 765827911552.dkr.ecr.us-east-1.amazonaws.com/mmt-api:latest

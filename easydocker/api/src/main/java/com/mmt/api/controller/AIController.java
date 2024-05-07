@@ -13,6 +13,7 @@ public class AIController {
     // 깃허브 액션 ECR 테스트 
     // IAM 정책 추가 후 테스트
     // 헛... yml 확장자가 안 붙어서 그런거였어 ㅋㅋ
+    // 그래도 run에서 에러가 나서 cd easydocker/api를 붙여봄 
     
     private final AnswerService answerService;
     private final ProbabilityService probabilityService;
