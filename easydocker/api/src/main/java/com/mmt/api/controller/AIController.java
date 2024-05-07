@@ -15,7 +15,7 @@ public class AIController {
     // 헛... yml 확장자가 안 붙어서 그런거였어 ㅋㅋ
     // 그래도 run에서 에러가 나서 cd easydocker/api를 붙여봄 
     // 사용자 생성 후 거기서 액세스 키 발급 받기
-    
+    // 아! 리전이 버지니아 북부로 되어 있었어 (여기서는 코드를 버지니아 북부로 하고, 실제 플젝에서는 서울로 가자)
     private final AnswerService answerService;
     private final ProbabilityService probabilityService;
 
