@@ -31,7 +31,6 @@ jobs:
       
     - name: Build, tag, and push image to Amazon ECR
       run: |
-        push docker build -t mmt-api .
-    		push docker tag mmt-api:latest 765827911552.dkr.ecr.us-east-1.amazonaws.com/mmt-api:latest
-        push docker push 765827911552.dkr.ecr.us-east-1.amazonaws.com/mmt-api:latest
-        
+        docker build -t mmt-api .
+    		docker tag mmt-api:latest 765827911552.dkr.ecr.us-east-1.amazonaws.com/mmt-api:latest
+        docker push 765827911552.dkr.ecr.us-east-1.amazonaws.com/mmt-api:latest
