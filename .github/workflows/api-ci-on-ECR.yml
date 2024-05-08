@@ -1,97 +1,91 @@
-name: API Deploy to ECR
-
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'easydocker/api/**'
-
-jobs:
-  build:
-    name: Build Image
-    runs-on: ubuntu-latest  
-    # 가장 최신의 Ubuntu 러너를 사용합니다.
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-      # 현재 리포지토리를 체크아웃합니다.
-
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
-
-    - name: Login to Amazon ECR
-      id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
-
-    - name: Build, tag, and push image to Amazon ECR
-      run: |
-        cd easydocker/api
-        docker build -t mmt-api .
-        docker tag mmt-api:latest 765827911552.dkr.ecr.us-east-1.amazonaws.com/mmt-api:latest
-        docker push 765827911552.dkr.ecr.us-east-1.amazonaws.com/mmt-api:latest
+# name: API Deploy to ECR
 
 # on:
 #   push:
-#     branches: [ main ]
+#     branches:
+#       - main
 #     paths:
 #       - 'easydocker/api/**'
-#   pull_request:
-#     branches: [ main ]
-#     paths:
-#       - 'easydocker/api/**'
-
-# name: CI on ECR
 
 # jobs:
-#   deploy:
-#     name: Deploy
-#     runs-on: ubuntu-latest
+#   build:
+#     name: Build Image
+#     runs-on: ubuntu-latest  
+#     # 가장 최신의 Ubuntu 러너를 사용합니다.
 
 #     steps:
-#     - name: Checkout
-#       uses: actions/checkout@v3
+#     - name: Checkout Repository
+#       uses: actions/checkout@v2
+#       # 현재 리포지토리를 체크아웃합니다.
 
 #     - name: Configure AWS credentials
-#       uses: aws-actions/configure-aws-credentials@v2
+#       uses: aws-actions/configure-aws-credentials@v1
 #       with:
 #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
 #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 #         aws-region: us-east-1
+
 #     - name: Login to Amazon ECR
 #       id: login-ecr
-#       uses: aws-actions/amazon-ecr-login@v2
+#       uses: aws-actions/amazon-ecr-login@v1
 
-#     - name: Build, tag, and push the image to Amazon ECR
+#     - name: Build, tag, and push image to Amazon ECR
 #       run: |
 #         cd easydocker/api
-#         # # Get current UTC time as image tag
-#         # IMAGE_TAG=$(date -u +"%Y%m%dT%H%M%SZ")
-#         # echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_ENV
+#         docker build -t mmt-api .
+#         docker tag mmt-api:latest 765827911552.dkr.ecr.us-east-1.amazonaws.com/mmt-api:latest
+#         docker push 765827911552.dkr.ecr.us-east-1.amazonaws.com/mmt-api:latest
 
-#         # # Build a Docker container and push it to ECR
-#         # docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:$IMAGE_TAG .
-#         # echo "Pushing image to ECR..."
-#         # docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:$IMAGE_TAG
-#         # echo "::set-output name=image::${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:$IMAGE_TAG"
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'easydocker/api/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'easydocker/api/**'
 
-#         # 우선은 그냥 latest (이 때, 내가 latest 이미지를 한 번 생성했다가 지웠다면 점검 조건을 추가해줘야 해)
-#         # Build a Docker container and push it to ECR
-#         # Check if the image exists locally
-#         if ! docker images | grep -q "${{ secrets.REPO_NAME }}"; then
-#           echo "Image not found locally. Building new image..."
-#           docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }} .
-#         fi
-#         # Tag and push the image
-#         docker tag ${{ secrets.REPO_NAME }}:latest ${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:latest
-#         echo "Pushing image to ECR..."
-#         docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:latest
-#   env:
-#       env:
-#         AWS_DEFAULT_REGION: us-east-1
-#         AWS_REGION: us-east-1
+name: CI on ECR
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Build, tag, and push the image to Amazon ECR
+      run: |
+        cd easydocker/api
+
+        # # Get current UTC time as image tag
+        # IMAGE_TAG=$(date -u +"%Y%m%dT%H%M%SZ")
+        # echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_ENV
+        # # Build a Docker container and push it to ECR
+        # docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:$IMAGE_TAG .
+        # echo "Pushing image to ECR..."
+        # docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:$IMAGE_TAG
+        # echo "::set-output name=image::${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:$IMAGE_TAG"
+
+        # 우선은 그냥 latest
+        docker build -t ${{ secrets.REPO_NAME }}: .
+        # echo "Pushing image to ECR..."
+        docker tag ${{ secrets.REPO_NAME }}:latest {{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:latest
+        docker push {{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:latest
+  env:
+      env:
+        AWS_DEFAULT_REGION: us-east-1
+        AWS_REGION: us-east-1

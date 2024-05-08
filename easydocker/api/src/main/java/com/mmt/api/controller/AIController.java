@@ -18,7 +18,8 @@ public class AIController {
     // 아! 리전이 버지니아 북부로 되어 있었어 (여기서는 코드를 버지니아 북부로 하고, 실제 플젝에서는 서울로 가자)
     // 워크플로우 수정 (얘도 리전 설정 챙겨줘야 해. 3군데)
     // 태그는 latest로 통일해서 ECR 개수 1개로 유지 
-    // 기존 코드로 다시 회귀 
+    // 기존 코드로 다시 회귀
+    // 다시 환경변수 버전으로 수정 
 
     private final AnswerService answerService;
     private final ProbabilityService probabilityService;
