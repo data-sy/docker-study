@@ -19,7 +19,7 @@ public class AIController {
     // 워크플로우 수정 (얘도 리전 설정 챙겨줘야 해. 3군데)
     // 태그는 latest로 통일해서 ECR 개수 1개로 유지 
     // 기존 코드로 다시 회귀
-    // 다시 환경변수 버전으로 수정 
+    // 다시 환경변수 버전으로 수정 . 들여쓰기 잘 맞춰야 해 
 
     private final AnswerService answerService;
     private final ProbabilityService probabilityService;

@@ -85,7 +85,7 @@ jobs:
         # echo "Pushing image to ECR..."
         docker tag ${{ secrets.REPO_NAME }}:latest {{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:latest
         docker push {{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:latest
-  env:
       env:
-        AWS_DEFAULT_REGION: us-east-1
-        AWS_REGION: us-east-1
+          env:
+            AWS_DEFAULT_REGION: us-east-1
+            AWS_REGION: us-east-1
