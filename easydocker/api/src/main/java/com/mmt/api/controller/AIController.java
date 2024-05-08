@@ -20,6 +20,9 @@ public class AIController {
     // 태그는 latest로 통일해서 ECR 개수 1개로 유지 
     // 기존 코드로 다시 회귀
     // 다시 환경변수 버전으로 수정 . 들여쓰기 잘 맞춰야 해! : 도 빼야지~
+    // 이미지 삭제 후에도 다시 생성 잘 되는지 확인
+    // $를 빼먹었었어 
+
 
     private final AnswerService answerService;
     private final ProbabilityService probabilityService;
