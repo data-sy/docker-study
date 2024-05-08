@@ -23,6 +23,7 @@ public class AIController {
     // 이미지 삭제 후에도 다시 생성 잘 되는지 확인
     // $를 빼먹었었어 
     // 새로 배포할 때 기존 이미지 삭제 안 되는지 확인
+    // 삭제 정책 테스트 1
 
 
     private final AnswerService answerService;
