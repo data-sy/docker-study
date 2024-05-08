@@ -81,7 +81,7 @@ jobs:
         # echo "::set-output name=image::${{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:$IMAGE_TAG"
 
         # 우선은 그냥 latest
-        docker build -t ${{ secrets.REPO_NAME }}: .
+        docker build -t ${{ secrets.REPO_NAME }} .
         # echo "Pushing image to ECR..."
         docker tag ${{ secrets.REPO_NAME }}:latest {{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:latest
         docker push {{ steps.login-ecr.outputs.registry }}/${{ secrets.REPO_NAME }}:latest
