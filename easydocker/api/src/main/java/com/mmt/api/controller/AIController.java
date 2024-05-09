@@ -25,6 +25,7 @@ public class AIController {
     // 새로 배포할 때 기존 이미지 삭제 안 되는지 확인
     // 삭제 정책 테스트 1
     // 삭제 정책 테스트 2
+    // 리전 서울로 레포 새로 팜
 
     private final AnswerService answerService;
     private final ProbabilityService probabilityService;
