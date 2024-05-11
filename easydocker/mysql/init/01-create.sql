@@ -161,4 +161,5 @@ INSERT INTO user_authority (user_id, authority_name) VALUES (1, 'ROLE_USER');
 INSERT INTO user_authority (user_id, authority_name) VALUES (1, 'ROLE_ADMIN');
 INSERT INTO user_authority (user_id, authority_name) VALUES (2, 'ROLE_USER');
 
--- ECR 테스트 
+-- ECR
+-- 오타수정 
