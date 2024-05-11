@@ -164,3 +164,4 @@ INSERT INTO user_authority (user_id, authority_name) VALUES (2, 'ROLE_USER');
 -- ECR
 -- 오타수정 
 -- 리포지토리 생성을 먼저 해야지!
+-- 로드밸런서에서 포트 번호 열었음 
