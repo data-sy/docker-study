@@ -163,3 +163,4 @@ INSERT INTO user_authority (user_id, authority_name) VALUES (2, 'ROLE_USER');
 
 -- ECR
 -- 오타수정 
+-- 리포지토리 생성을 먼저 해야지!
