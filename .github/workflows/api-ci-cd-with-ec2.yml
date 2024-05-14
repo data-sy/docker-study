@@ -58,7 +58,7 @@ jobs:
         password: ${{ secrets.EC2_PASSWORD }}
         port: ${{ secrets.EC2_PORT }}
         script: |
-          docker rm -f mmt-backend
+          docker rm -f ec2-user-mmt-backend-1
           docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/mmt-backend:3.0.0
           docker-compose up -d mmt-backend
           docker system prune -f
