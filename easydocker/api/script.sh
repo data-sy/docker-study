@@ -10,3 +10,6 @@ docker run -d -e RDB_URL=mmt-mysql -e NOSQL_URL=mmt-redis -e GDB_URL=mmt-neo4j -
 
 # 로그 확인
 docker logs -f mmt-backend
+# EC2
+docker logs -f ec2-user-mmt-backend-1
+
