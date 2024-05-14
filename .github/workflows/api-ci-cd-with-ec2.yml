@@ -6,6 +6,10 @@ on:
       - main
     paths:
       - 'easydocker/api/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'easydocker/api/**'
 
 jobs:
   build-and-push:
