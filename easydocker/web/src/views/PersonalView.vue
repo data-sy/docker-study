@@ -12,6 +12,32 @@ const router = useRouter();
 const api = useApi();
 const { htmlToPdf } = useHtmlToPdf();
 
+
+
+
+// get post 메서드 테스트
+const getTestValue = ref(null);
+const postTestValue = ref(null);
+const getTest = () => {
+    try {
+        const endpoint = '/api/v1/hello';
+        const response = await api.get(endpoint);
+        getTestValue.value = response;
+    } catch (err) {
+        console.error('getTest 에러 발생:', err);
+    }
+};
+const postTest = () => {
+    try {
+        const endpoint = '/api/v1/hello';
+        const response = await api.post(endpoint);
+        postTestValue.value = response;
+    } catch (err) {
+        console.error('getTest 에러 발생:', err);
+    }
+};
+
+
 // [출제하기] 버튼에 준비중 띄워둠
 const confirmPopup = useConfirm();
 const confirm4 = (event) => {
@@ -176,6 +202,10 @@ const yesClick = () => {
 
 <template>
     <div class="grid p-fluid">
+        <button @click="getTest"> get 요청 버튼 </button>
+        <div> {{ getTestValue }}</div>
+        <button @click="postTest"> post 요청 버튼 </button>
+        <div> {{ postTestValue }}</div>
         <div class="text-red-400 font-medium text-8xl mb-3 px-3">준비중인 페이지입니다.</div>
         <div class="col-12 text-center">
             <div v-if="!isLoggedIn" class="text-orange-500 font-medium text-3xl">로그인이 필요한 페이지 입니다.</div>
