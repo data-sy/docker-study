@@ -11,6 +11,9 @@ docker logs -f mmt-neo4j
 # 컨테이너 명령어 실행
 docker exec -it mmt-neo4j cypher-shell -u neo4j -p myneo4jpw -f /var/lib/neo4j/import/init.cypher
 
+# 깃허브액션으로 EC2에 CICD로 올린 건 이름 바뀜 
+docker exec -it ec2-user-mmt-neo4j-1 cypher-shell -u neo4j -p myneo4jpw -f /var/lib/neo4j/import/init.cypher
+
 # # 데이터 조회
 # MATCH (n) RETURN n;
 # # 나가기
