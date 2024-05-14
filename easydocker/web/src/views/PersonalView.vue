@@ -31,7 +31,7 @@ const postTest = async () => {
         const response = await api.post(endpoint);
         postTestValue.value = response;
     } catch (err) {
-        console.error('getTest 에러 발생:', err);
+        console.error('postTest 에러 발생:', err);
     }
 };
 
