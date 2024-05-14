@@ -13,8 +13,6 @@ const api = useApi();
 const { htmlToPdf } = useHtmlToPdf();
 
 
-
-
 // get post 메서드 테스트
 const getTestValue = ref(null);
 const postTestValue = ref(null);

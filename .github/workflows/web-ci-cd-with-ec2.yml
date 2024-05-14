@@ -54,7 +54,7 @@ jobs:
         password: ${{ secrets.EC2_PASSWORD }}
         port: ${{ secrets.EC2_PORT }}
         script: |
-          docker rm -f mmt-front
+          docker rm -f ec2-user-mmt-front-1
           docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/mmt-front:3.0.0
           docker-compose up -d mmt-front
           docker system prune -f
