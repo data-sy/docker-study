@@ -16,7 +16,7 @@ const { htmlToPdf } = useHtmlToPdf();
 // get post 메서드 테스트
 const getTestValue = ref(null);
 const postTestValue = ref(null);
-const getTest = () => {
+const getTest = async () => {
     try {
         const endpoint = '/api/v1/hello';
         const response = await api.get(endpoint);
@@ -25,7 +25,7 @@ const getTest = () => {
         console.error('getTest 에러 발생:', err);
     }
 };
-const postTest = () => {
+const postTest = async () => {
     try {
         const endpoint = '/api/v1/hello';
         const response = await api.post(endpoint);
