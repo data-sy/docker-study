@@ -13,6 +13,8 @@ docker logs -f mmt-mysql
 # # 컨테이너 명령어 실행
 # docker exec -it mmt-mysql mysql -u mmt2024 -p mmt
 
+# EC2
+# docker exec -it ec2-user-mmt-mysql-1 mysql -u mmt2024 -p mmt
 # # 데이터 조회
-# $ mmt=# SELECT * FROM users;
+# $ SELECT * FROM users;
 # exit;

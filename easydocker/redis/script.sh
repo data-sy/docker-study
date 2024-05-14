@@ -13,8 +13,11 @@ docker logs -f mmt-redis
 # # 컨테이너 명령어 실행
 # docker exec -it mmt-redis redis-cli -a myredispw
 
+# # EC2
+# docker exec -it ec2-user-mmt-redis-1 redis-cli -a myredispw
+
 # # 데이터 조회
 # SET mykey "Hello, Redis!"
 # GET mykey
 
-# CD 테스트
+# CICD 테스트
