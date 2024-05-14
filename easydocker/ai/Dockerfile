@@ -3,10 +3,10 @@ FROM python:3.9.5-slim
 WORKDIR /app
 
 # 전체 
-# COPY . /app
-# 필요한 것만
-COPY app.py predict.py savedmodel /app/
-COPY requirements_flask.txt /app/
+COPY . /app
+# # 필요한 것만
+# COPY app.py predict.py savedmodel /app/
+# COPY requirements_flask.txt /app/
 
 RUN python3 -m venv venv && . venv/bin/activate
 RUN python3 -m pip install --upgrade pip
