@@ -32,3 +32,9 @@ docker exec -it mmt-neo4j cypher-shell -u neo4j -p myneo4jpw -f /var/lib/neo4j/i
 
 # compose로 실행 시 볼륨 확인
 # docker exec -it easydocker-mmt-neo4j-1 cypher-shell -u neo4j -p myneo4jpw
+
+
+# EC2 볼륨 테스트
+# MATCH (n {concept_id: 4015}), (m)
+# WHERE m.chapter_name = n.chapter_name
+# RETURN (m);
