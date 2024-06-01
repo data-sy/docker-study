@@ -14,8 +14,8 @@ docker run -d --name mmt-neo4j -v neo4j-vol:/data --network mmt-network mmt2024/
 docker logs -f mmt-neo4j
 
 # 컨테이너 명령어 실행
-docker exec -it mmt-neo4j cypher-shell -u neo4j -p myneo4jpw -f /var/lib/neo4j/import/init.cypher
-# docker exec -it new-mmt-neo4j cypher-shell -u neo4j -p myneo4jpw
+docker exec -it mmt-neo4j cypher-shell -u neo4j -p 비번 -f /var/lib/neo4j/import/init.cypher
+# docker exec -it new-mmt-neo4j cypher-shell -u neo4j -p 비번
 
 # 컨테이너 스탑 & 삭제
 # docker stop mmt-neo4j
@@ -23,7 +23,7 @@ docker exec -it mmt-neo4j cypher-shell -u neo4j -p myneo4jpw -f /var/lib/neo4j/i
 
 # # 재실행해서 볼륨 확인
 # docker run -d --name new-mmt-neo4j -v neo4j-vol:/data --network mmt-network mmt2024/mmt-neo4j:1.0.0
-# docker exec -it new-mmt-neo4j cypher-shell -u neo4j -p myneo4jpw
+# docker exec -it new-mmt-neo4j cypher-shell -u neo4j -p 비번
 
 # # 데이터 조회
 # MATCH (n) RETURN n;
@@ -31,7 +31,7 @@ docker exec -it mmt-neo4j cypher-shell -u neo4j -p myneo4jpw -f /var/lib/neo4j/i
 # :exit
 
 # compose로 실행 시 볼륨 확인
-# docker exec -it easydocker-mmt-neo4j-1 cypher-shell -u neo4j -p myneo4jpw
+# docker exec -it easydocker-mmt-neo4j-1 cypher-shell -u neo4j -p 비번
 
 
 # EC2 볼륨 테스트

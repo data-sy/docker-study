@@ -11,8 +11,8 @@ RUN chown -R neo4j:neo4j /var/lib/neo4j/import/
 # RUN chmod +x /var/lib/neo4j/compose-script.sh 
 USER neo4j
 
-# 환경 변수 설정 (비밀번호 등)
-ENV NEO4J_AUTH=neo4j/myneo4jpw
+# # 환경 변수 설정 (비밀번호 등)
+# ENV NEO4J_AUTH=
 
 # Neo4j 서버 실행 포트
 EXPOSE 7474 7473 7687

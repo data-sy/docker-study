@@ -32,7 +32,7 @@ docker pull mmt2024/mmt-neo4j:3.0.0
 docker run -d --name mmt-neo4j --network mmt-network mmt2024/mmt-neo4j:3.0.0
     # 로그로 서버 started 확인
 docker logs -f mmt-neo4j
-docker exec -it mmt-neo4j cypher-shell -u neo4j -p myneo4jpw -f /var/lib/neo4j/import/init.cypher
+docker exec -it mmt-neo4j cypher-shell -u neo4j -p 비번 -f /var/lib/neo4j/import/init.cypher
 # redis
 docker pull mmt2024/mmt-redis:3.0.0
 docker run -d --name mmt-redis --network mmt-network mmt2024/mmt-redis:3.0.0
