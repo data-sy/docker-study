@@ -1,16 +1,12 @@
-FROM python:3.9.5-slim
+# 베이스 이미지
+FROM emacski/tensorflow-serving:latest
 
-WORKDIR /app
+# 모델을 컨테이너의 모델 디렉토리로 복사
+# '/models/my_model/1/' 경로에 저장할 수 있도록 설정
+COPY ./savedmodel /models/my_model/1
 
-# 전체 
-COPY . /app
-# # 필요한 것만
-# COPY app.py predict.py savedmodel /app/
-# COPY requirements_flask.txt /app/
+# 환경 변수 설정
+ENV MODEL_NAME=my_model
 
-RUN python3 -m venv venv && . venv/bin/activate
-RUN python3 -m pip install --upgrade pip
-RUN pip3 install -r requirements_flask.txt
-
-ENTRYPOINT ["python3", "-m", "flask", "run"]
-CMD ["--host=0.0.0.0"]
+# 텐서플로우 서빙을 시작합니다.
+ENTRYPOINT ["/usr/bin/tensorflow_model_server", "--port=8501", "--model_name=my_model", "--model_base_path=/models/my_model"]

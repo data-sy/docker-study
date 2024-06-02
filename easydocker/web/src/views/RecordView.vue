@@ -152,7 +152,7 @@ const createRecord = async () => {
         console.log("사용자가 로그인하지 않았거나, userTestId가 없습니다. 기록을 건너뜁니다.");
     }
 };
-// AI 분석
+// AI 분석 deprecated
 const analysis = async () => {
     if (isLoggedIn.value && userTestId.value !== null) {
         const accessToken = localStorage.getItem('accessToken');

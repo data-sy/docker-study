@@ -1,15 +1,11 @@
-name: Backend CI CD with EC2
+name: TensorFlow Serving CI/CD with EC2
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'easydocker/api/**'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'easydocker/api/**'
+      - 'easydocker/ai/**'
 
 jobs:
   build-and-push:
@@ -36,13 +32,13 @@ jobs:
     - name: Build and Push
       uses: docker/build-push-action@v2
       with:
-        context: ./easydocker/api  
+        context: ./easydocker/ai  
         # Dockerfile이 있는 위치입니다.
-        file: ./easydocker/api/Dockerfile  
+        file: ./easydocker/ai/Dockerfile  
         # Dockerfile의 경로입니다.
-        push: true  
+        push: true
         # 이미지를 레지스트리에 푸시합니다.
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/mmt-backend:3.0.0
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/mmt-ai:serving2
         platforms: linux/amd64,linux/arm64
 
   deploy:
@@ -58,7 +54,7 @@ jobs:
         password: ${{ secrets.EC2_PASSWORD }}
         port: ${{ secrets.EC2_PORT }}
         script: |
-          docker rm -f ec2-user-mmt-backend-1
-          docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/mmt-backend:3.0.0
-          docker-compose up -d mmt-backend
+          docker rm -f mmt-ai
+          docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/mmt-ai:serving2
+          docker-compose up -d mmt-ai
           docker system prune -f
