@@ -17,7 +17,7 @@ spring:
   redis:
     host: ${REDIS_URL:localhost}
     port: ${REDIS_PORT}
-    password: ${REDIS_PASSWORD:myredispw}
+    password: ${REDIS_PASSWORD}
   security:
     oauth2:
       client:
