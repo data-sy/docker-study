@@ -3,9 +3,11 @@ import json
 
 def rest_test():
     # 서버 주소 및 포트 설정
-    server_url = 'http://localhost:8501/v1/models/my_model:predict'
-    
-    # 입력 데이터 설정 
+    # server_url = 'http://localhost:8501/v1/models/my_model:predict'
+    # EC2
+    server_url = 'http://13.124.61.161:8501/v1/models/my_model:predict'
+
+    # 입력 데이터 설정
     data = {
         "signature_name": "serving_default",
         "instances": [{"input": [[1171, 1], [467, 1], [1703, 1], [1817, 1], [1698, 1], [623, 0], [1182, 0], [1614, 0], [396, 0],
