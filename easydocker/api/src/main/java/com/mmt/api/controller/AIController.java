@@ -35,6 +35,7 @@ public class AIController {
         this.probabilityService = probabilityService;
     }
 
+
     /**
      * AI input 데이터 플라스크에 제공
      */
@@ -50,5 +51,16 @@ public class AIController {
     public void create(@RequestBody AIOutputRequest request){
         probabilityService.create(request.getUserTestId(), request.getProbabilityList());
     }
+
+    /**
+     * 텐서플로우_서빙 서버 테스트
+     */
+    @GetMapping("/serving-test")
+    public String getPrediction(){
+
+        return probabilityService.getPrediction();
+    }
+
+
 
 }

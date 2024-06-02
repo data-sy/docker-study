@@ -6,10 +6,16 @@ import com.mmt.api.dto.result.ResultResponse;
 import com.mmt.api.repository.Probability.ProbabilityRepository;
 import com.mmt.api.repository.concept.ConceptRepository;
 import com.mmt.api.util.LogicUtil;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,12 +26,14 @@ public class ProbabilityService {
     private final ConceptRepository conceptRepository;
     private final AnswerService answerService;
     private final ConceptService conceptService;
+    private final RestTemplate restTemplate;
 
-    public ProbabilityService(ProbabilityRepository probabilityRepository, ConceptRepository conceptRepository, AnswerService answerService, ConceptService conceptService) {
+    public ProbabilityService(ProbabilityRepository probabilityRepository, ConceptRepository conceptRepository, AnswerService answerService, ConceptService conceptService, RestTemplate restTemplate) {
         this.probabilityRepository = probabilityRepository;
         this.conceptRepository = conceptRepository;
         this.answerService = answerService;
         this.conceptService = conceptService;
+        this.restTemplate = restTemplate;
     }
 
     public void create(Long userTestId, double[] probabilityList){
@@ -61,6 +69,39 @@ public class ProbabilityService {
 
     public List<ResultResponse> findResults(Long userTestId){
         return ResultConverter.convertListToResultResponseList(probabilityRepository.findResults(userTestId));
+    }
+
+    public String getPrediction() {
+        String serverUrl = "http://13.124.61.161:8501/v1/models/my_model:predict";
+
+        // 입력 데이터 설정
+        Map<String, Object> data = new HashMap<>();
+        data.put("signature_name", "serving_default");
+
+        Map<String, Object> instances = new HashMap<>();
+        instances.put("input", new int[][] {
+                {1171, 1}, {467, 1}, {1703, 1}, {1817, 1}, {1698, 1}, {623, 0}, {1182, 0},
+                {1614, 0}, {396, 0}, {1681, 0}, {1564, 1}, {461, 1}, {782, 1}, {593, 1},
+                {1582, 1}, {774, 0}, {1660, 0}, {1583, 0}, {790, 0}, {1531, 0}
+        });
+
+        data.put("instances", new Map[] { instances });
+
+        // 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // 요청 엔티티 생성
+        HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(data, headers);
+
+        // 예측 요청
+        ResponseEntity<String> response = restTemplate.postForEntity(serverUrl, requestEntity, String.class);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return response.getBody();
+        } else {
+            return "예측 요청 실패. 상태 코드: " + response.getStatusCode() + ", 응답: " + response.getBody();
+        }
     }
 
 }
