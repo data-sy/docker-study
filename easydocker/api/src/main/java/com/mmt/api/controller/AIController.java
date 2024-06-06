@@ -2,6 +2,7 @@ package com.mmt.api.controller;
 
 import com.mmt.api.dto.AI.AIInputResponse;
 import com.mmt.api.dto.AI.AIOutputRequest;
+import com.mmt.api.dto.AI.AIServingResponse;
 import com.mmt.api.service.AnswerService;
 import com.mmt.api.service.ProbabilityService;
 import org.springframework.web.bind.annotation.*;
@@ -59,8 +60,8 @@ public class AIController {
     /**
      * 텐서플로우_서빙 서버 테스트
      */
-    @GetMapping("/serving-test")
-    public String getPrediction(){
+    @GetMapping("/serving-test-test")
+    public AIServingResponse getPrediction(){
         return probabilityService.getPrediction();
     }
 
