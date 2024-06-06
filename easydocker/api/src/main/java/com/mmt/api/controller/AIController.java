@@ -46,7 +46,7 @@ public class AIController {
      */
     @GetMapping("/input-detail")
     public List<InputInstance> getInputDetail(){
-        return answerService.findAIInput(2L);
+        return answerService.findAIInput(3L);
     }
 
     /**
@@ -54,7 +54,8 @@ public class AIController {
      */
     @GetMapping("/serving-test")
     public AIServingResponse getPrediction(){
-        return probabilityService.getPrediction();
+//        return probabilityService.getPredictionTest();
+        return probabilityService.getPrediction(3L);
     }
 
     // deprecated : 플라스크 서버 때 사용했던

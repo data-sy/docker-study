@@ -36,16 +36,13 @@ public class AnswerService {
         // user_test_id별 정오답 기록을 answerCodeList에 넣기 (데이터 500배 증폭 -> 100배로 수정)
         utIdList.forEach(utId -> {
             List<AnswerCode> answerCodeList = answerRepository.findAnswerCode(utId);
+            InputInstance inputInstance = new InputInstance();
             answerCodeList.forEach(answerCode -> {
                 IntStream.range(0, 100)
-                        .mapToObj(i -> {
-                            int[] intArray = AnswerConverter.convertToIntArray(answerCode);
-                            InputInstance inputInstance = new InputInstance();
-                            inputInstance.addInput(intArray);
-                            return inputInstance;
-                        })
-                        .forEach(inputInstanceList::add);
+                        .mapToObj(i -> AnswerConverter.convertToIntArray(answerCode))
+                        .forEach(inputInstance::addInput); // 각 int[]를 inputInstance에 추가
             });
+            inputInstanceList.add(inputInstance);
         });
         return inputInstanceList;
     }
