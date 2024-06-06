@@ -36,6 +36,10 @@ public class AIController {
     }
 
 
+
+
+
+
     /**
      * AI input 데이터 플라스크에 제공
      */
@@ -57,10 +61,7 @@ public class AIController {
      */
     @GetMapping("/serving-test")
     public String getPrediction(){
-
         return probabilityService.getPrediction();
     }
-
-
 
 }
