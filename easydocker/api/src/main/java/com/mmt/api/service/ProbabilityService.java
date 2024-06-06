@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Flux;
@@ -41,14 +42,17 @@ public class ProbabilityService {
         this.restTemplate = restTemplate;
     }
 
-    public void createAndPredict(AnswerCreateRequest request) {
+    @Transactional
+    public double[] createAndPredict(AnswerCreateRequest request) {
         // 정오답 create
-        // 여기에 무슨 어노테이션 붙여야 해. 이거 다 끝나고 다음 걸로 진행한다는. 트랜잭셔널?
-//        answerService.create(request);
+        answerService.create(request);
         // AI 분석
-//        double[] probabilityList = getPrediction(request.getUserTestId()).getPredictions().get(0);
+        List<Double> predictionList = getPrediction(request.getUserTestId()).getPredictions().get(0);
+        double[] probabilityList = predictionList.stream().mapToDouble(Double::doubleValue).toArray();
         // AI 분석 결과 create
-//        create(request.getUserTestId(), probabilityList);
+        create(request.getUserTestId(), probabilityList);
+        return probabilityList;
+        // 확인 후 void로 수정
     }
 
     public void create(Long userTestId, double[] probabilityList){
@@ -91,7 +95,7 @@ public class ProbabilityService {
         String serverUrl = "http://13.124.61.161:8501/v1/models/my_model:predict";
 
         List<InputInstance> instances = answerService.findAIInput(userTestId);
-        
+
         AIServingRequest aiServingRequest = new AIServingRequest();
         aiServingRequest.setSignatureName("serving_default");
         aiServingRequest.setInstances(instances);

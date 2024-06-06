@@ -44,13 +44,9 @@ public class AIController {
      *  AI 분석
      */
     @PostMapping("")
-    public void create(@RequestBody AnswerCreateRequest request){
-//        return probabilityService.getPredictionTest();
-//        return probabilityService.getPrediction(3L);
+    public double[] create(@RequestBody AnswerCreateRequest request){
+        return probabilityService.createAndPredict(request);
     }
-//    public void create(@RequestBody AIOutputRequest request){
-//        probabilityService.create(request.getUserTestId(), request.getProbabilityList());
-//    }
 
     /**
      * 인풋 모양 테스트
