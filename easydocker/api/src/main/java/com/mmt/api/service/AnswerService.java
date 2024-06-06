@@ -30,21 +30,21 @@ public class AnswerService {
 
     public List<InputInstance> findAIInput(Long userTestId){
         List<InputInstance> inputInstanceList = new ArrayList<>();
+        InputInstance inputInstance = new InputInstance();
+        List<int[]> inputList = new ArrayList<>();
         // 조건에 맞는 user_test_id들 찾기
         List<Long> utIdList = userTestService.findBefore(userTestId);
         // user_test_id별 정오답 기록을 answerCodeList에 넣기 (데이터 500배 증폭 -> 100배로 수정)
         utIdList.forEach(utId -> {
             List<AnswerCode> answerCodeList = answerRepository.findAnswerCode(utId);
-            InputInstance inputInstance = new InputInstance();
-            List<int[]> inputList = new ArrayList<>();
             answerCodeList.forEach(answerCode -> {
                 IntStream.range(0, 1)
                         .mapToObj(i -> AnswerConverter.convertToIntArray(answerCode))
                         .forEach(inputList::add);
             });
-            inputInstance.setInput(inputList);
-            inputInstanceList.add(inputInstance);
         });
+        inputInstance.setInput(inputList);
+        inputInstanceList.add(inputInstance);
         return inputInstanceList;
     }
 
