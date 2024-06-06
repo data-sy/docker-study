@@ -7,5 +7,5 @@ import java.util.List;
 @Data
 public class AIServingRequest {
     private String signatureName;
-    private List<int[]> instances;
+    private List<InputInstance> instances;
 }

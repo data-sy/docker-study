@@ -2,6 +2,8 @@ package com.mmt.api.service;
 
 import com.mmt.api.domain.Probability;
 import com.mmt.api.dto.AI.AIServingRequest;
+import com.mmt.api.dto.AI.AIServingResponse;
+import com.mmt.api.dto.AI.InputInstance;
 import com.mmt.api.dto.result.ResultConverter;
 import com.mmt.api.dto.result.ResultResponse;
 import com.mmt.api.repository.Probability.ProbabilityRepository;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import reactor.core.publisher.Flux;
 
@@ -69,22 +72,28 @@ public class ProbabilityService {
         return ResultConverter.convertListToResultResponseList(probabilityRepository.findResults(userTestId));
     }
 
+
+    // 요청, 응답 모두 DTO로
+
     // 요청을 DTO로
     public String getPrediction() {
         String serverUrl = "http://13.124.61.161:8501/v1/models/my_model:predict";
 
         // DTO를 사용한 입력 데이터 설정
+        InputInstance inputInstance = new InputInstance();
+        inputInstance.setInput(Arrays.asList(
+                new int[]{1171, 1}, new int[]{467, 1}, new int[]{1703, 1}, new int[]{1817, 1},
+                new int[]{1698, 1}, new int[]{623, 0}, new int[]{1182, 0}, new int[]{1614, 0},
+                new int[]{396, 0}, new int[]{1681, 0}, new int[]{1564, 1}, new int[]{461, 1},
+                new int[]{782, 1}, new int[]{593, 1}, new int[]{1582, 1}, new int[]{774, 0},
+                new int[]{1660, 0}, new int[]{1583, 0}, new int[]{790, 0}, new int[]{1531, 0}
+        ));
+        List<InputInstance> instances = new ArrayList<>();
+        instances.add(inputInstance);
+
         AIServingRequest aiServingRequest = new AIServingRequest();
         aiServingRequest.setSignatureName("serving_default");
-        aiServingRequest.setInstances(
-                Arrays.asList(
-                        new int[]{1171, 1}, new int[]{467, 1}, new int[]{1703, 1}, new int[]{1817, 1},
-                        new int[]{1698, 1}, new int[]{623, 0}, new int[]{1182, 0}, new int[]{1614, 0},
-                        new int[]{396, 0}, new int[]{1681, 0}, new int[]{1564, 1}, new int[]{461, 1},
-                        new int[]{782, 1}, new int[]{593, 1}, new int[]{1582, 1}, new int[]{774, 0},
-                        new int[]{1660, 0}, new int[]{1583, 0}, new int[]{790, 0}, new int[]{1531, 0}
-                        )
-                    );
+        aiServingRequest.setInstances(instances);
 
         // 헤더 설정
         HttpHeaders headers = new HttpHeaders();
