@@ -44,17 +44,10 @@ public class AIController {
      *  AI 분석
      */
     @PostMapping("")
-    public double[] create(@RequestBody AnswerCreateRequest request){
-        return probabilityService.createAndPredict(request);
+    public void create(@RequestBody AnswerCreateRequest request){
+        probabilityService.createAndPredict(request);
     }
 
-    /**
-     * 인풋 모양 테스트
-     */
-    @GetMapping("/input-detail")
-    public List<InputInstance> getInputDetail(){
-        return answerService.findAIInput(3L);
-    }
 
     /**
      * 텐서플로우_서빙 서버 테스트
@@ -64,6 +57,14 @@ public class AIController {
 //        return probabilityService.getPredictionTest();
         return probabilityService.getPrediction(3L);
     }
+
+//    /**
+//     * 인풋 모양 테스트
+//     */
+//    @GetMapping("/input-detail")
+//    public List<InputInstance> getInputDetail(){
+//        return answerService.findAIInput(3L);
+//    }
 
     // deprecated : 플라스크 서버 때 사용했던
 //    /**

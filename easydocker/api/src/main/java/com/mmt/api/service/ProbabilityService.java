@@ -43,7 +43,7 @@ public class ProbabilityService {
     }
 
     @Transactional
-    public double[] createAndPredict(AnswerCreateRequest request) {
+    public void createAndPredict(AnswerCreateRequest request) {
         // 정오답 create
         answerService.create(request);
         // AI 분석
@@ -51,8 +51,6 @@ public class ProbabilityService {
         double[] probabilityList = predictionList.stream().mapToDouble(Double::doubleValue).toArray();
         // AI 분석 결과 create
         create(request.getUserTestId(), probabilityList);
-        return probabilityList;
-        // 확인 후 void로 수정
     }
 
     public void create(Long userTestId, double[] probabilityList){
