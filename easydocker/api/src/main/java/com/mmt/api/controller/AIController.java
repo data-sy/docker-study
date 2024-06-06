@@ -4,6 +4,7 @@ import com.mmt.api.dto.AI.AIInputResponse;
 import com.mmt.api.dto.AI.AIOutputRequest;
 import com.mmt.api.dto.AI.AIServingResponse;
 import com.mmt.api.dto.AI.InputInstance;
+import com.mmt.api.dto.answer.AnswerCreateRequest;
 import com.mmt.api.service.AnswerService;
 import com.mmt.api.service.ProbabilityService;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +40,17 @@ public class AIController {
         this.probabilityService = probabilityService;
     }
 
-
+    /**
+     *  AI 분석
+     */
+    @PostMapping("")
+    public void create(@RequestBody AnswerCreateRequest request){
+//        return probabilityService.getPredictionTest();
+//        return probabilityService.getPrediction(3L);
+    }
+//    public void create(@RequestBody AIOutputRequest request){
+//        probabilityService.create(request.getUserTestId(), request.getProbabilityList());
+//    }
 
     /**
      * 인풋 모양 테스트

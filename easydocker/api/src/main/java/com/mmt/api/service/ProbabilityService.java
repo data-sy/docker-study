@@ -4,6 +4,7 @@ import com.mmt.api.domain.Probability;
 import com.mmt.api.dto.AI.AIServingRequest;
 import com.mmt.api.dto.AI.AIServingResponse;
 import com.mmt.api.dto.AI.InputInstance;
+import com.mmt.api.dto.answer.AnswerCreateRequest;
 import com.mmt.api.dto.result.ResultConverter;
 import com.mmt.api.dto.result.ResultResponse;
 import com.mmt.api.repository.Probability.ProbabilityRepository;
@@ -38,6 +39,16 @@ public class ProbabilityService {
         this.answerService = answerService;
         this.conceptService = conceptService;
         this.restTemplate = restTemplate;
+    }
+
+    public void createAndPredict(AnswerCreateRequest request) {
+        // 정오답 create
+        // 여기에 무슨 어노테이션 붙여야 해. 이거 다 끝나고 다음 걸로 진행한다는. 트랜잭셔널?
+//        answerService.create(request);
+        // AI 분석
+//        double[] probabilityList = getPrediction(request.getUserTestId()).getPredictions().get(0);
+        // AI 분석 결과 create
+//        create(request.getUserTestId(), probabilityList);
     }
 
     public void create(Long userTestId, double[] probabilityList){
@@ -80,7 +91,7 @@ public class ProbabilityService {
         String serverUrl = "http://13.124.61.161:8501/v1/models/my_model:predict";
 
         List<InputInstance> instances = answerService.findAIInput(userTestId);
-
+        
         AIServingRequest aiServingRequest = new AIServingRequest();
         aiServingRequest.setSignatureName("serving_default");
         aiServingRequest.setInstances(instances);
