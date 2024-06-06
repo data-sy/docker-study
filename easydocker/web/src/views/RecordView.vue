@@ -135,7 +135,7 @@ const renderItemAnswer = (text) => {
 const isLatex = (answer) => {
     return !answer.includes('&#');
 }
-// 정오답 DB에 저장
+// 정오답 DB에 저장 deprecated
 const createRecord = async () => {
     if (isLoggedIn.value && userTestId.value !== null) {
         const answerCodeCreateRequestList = testDetail.value.map(({ itemId, answerCode }) => ({ itemId, answerCode: answerCode ? 1 : 0 }));
@@ -172,6 +172,25 @@ const analysis = async () => {
         }
     } else {
         console.log("userTestId가 없습니다. AI 분석을 건너뜁니다.");   
+    }
+};
+// AI 분석 deprecated
+const predict = async () => {
+    if (isLoggedIn.value && userTestId.value !== null) {
+        const answerCodeCreateRequestList = testDetail.value.map(({ itemId, answerCode }) => ({ itemId, answerCode: answerCode ? 1 : 0 }));
+        const requestData = ref({
+            userTestId: userTestId,
+            answerCodeCreateRequestList: answerCodeCreateRequestList
+        });
+        try {
+            // 테스트 후에는 response 없애기
+            const response = await api.post('api/v1/ai', requestData.value);
+            console.log('응답 데이터:', response.data);
+        } catch (err) {
+            console.error(`POST ${endpoint} failed:`, err);
+        }
+    } else {
+        console.log("사용자가 로그인하지 않았거나, userTestId가 없습니다. 기록을 건너뜁니다.");
     }
 };
 // 학습지를 누르지 않고 [기록하기]버튼을 누르면, 학습지 목록에서 학습지를 먼저 골라달라고 안내
@@ -236,8 +255,9 @@ const closeConfirmation = () => {
 // yes 버튼 클릭 시
 const yesClick = async () => {
     closeConfirmation();
-    await createRecord();
-    await analysis();
+    // await createRecord();
+    // await analysis();
+    await predict();
     goToHome();
 };
 // [여기] 클릭 시 : userTestId 가지고 result로 이동
